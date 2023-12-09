@@ -10,5 +10,16 @@ typedef struct hash_node {
 struct hash_table {
     int size;
     HashNode* table;
-
 };
+
+//******************************************** HashNode Implementation ***********************************************//
+
+HashNode createHashNode() {
+
+}
+
+void destroyHashNode(HashNode hn) {
+
+}
+
+//******************************************** HashTable Implementation **********************************************//

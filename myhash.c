@@ -41,3 +41,24 @@ void destroyHashNode(HashNode hn) {
 }
 
 //******************************************** HashTable Implementation **********************************************//
+
+HashTable createHashTable() {
+    HashTable ht = malloc(sizeof (struct hash_table));
+    ht->size = INIT_SIZE;
+    ht->table = malloc(INIT_SIZE * sizeof (HashNode));
+    return ht;
+}
+
+
+void destroyHashtable(HashTable ht) {
+
+    free(ht->table);
+    free(ht);
+}
+
+
+void* get(HashTable ht, Key key) {
+
+}
+
+void insert(Key key, Value val);

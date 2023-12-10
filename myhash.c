@@ -16,7 +16,8 @@ void destroyHashNode(HashNode hn);
 // Auxiliary functions:
 void emptyTable(HashTable ht);
 void resize(HashTable ht);
-int hash(HashTable ht, Key key);
+int hash(int size, Key key);
+void insertNode(HashNode* table, int size, HashNode node);
 
 //********************************************** Struct Definitions **************************************************//
 
@@ -52,7 +53,7 @@ void destroyHashtable(HashTable ht) {
 
 Value get(HashTable ht, Key key) {
     if (!ht || !key) return NULL;
-    HashNode ptr = ht->table[hash(ht, key)];
+    HashNode ptr = ht->table[hash(ht->size, key)];
     while (ptr) {
         if (ptr->key == key) return ptr->value;
         ptr = ptr->next;
@@ -102,7 +103,9 @@ void resize(HashTable ht) {
     for (int i = 0; i < ht->size; i++) {
         HashNode ptr = ht->table[i];
         while (ptr) {
+            HashNode current = ptr;
             ptr = ptr->next;
+            insertNode(new_table, 2*ht->size, current);
         }
     }
     free(ht->table);
@@ -111,7 +114,22 @@ void resize(HashTable ht) {
 }
 
 
-int hash(HashTable ht, Key key) {
-    return (int)((long long)key % ht->size);
+int hash(int size, Key key) {
+    return (int)((long long)key % size);
 }
 
+
+void insertNode(HashNode* table, int size, HashNode node) {
+    if (!table || !node) return;
+    node->next = NULL;
+    int hash_key = hash(size, node->key);
+    HashNode ptr = table[hash_key];
+    if (!ptr) {
+        table[hash_key] = node;
+        return;
+    }
+    while (ptr->next) {
+        ptr = ptr->next;
+    }
+    ptr->next = node;
+}

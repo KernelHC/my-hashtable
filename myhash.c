@@ -31,13 +31,14 @@ struct hash_node {
     struct hash_node* next;
 };
 
+
 struct hash_table {
     int size;
     HashNode* table;
     int elements_num;
 };
 
-//******************************************** HashTable Implementation **********************************************//
+//********************************************** HashTable Functions *************************************************//
 
 HashTable createHashTable() {
     HashTable ht = malloc(sizeof (struct hash_table));
@@ -65,6 +66,7 @@ Value get(HashTable ht, Key key) {
     return NULL;
 }
 
+
 void insert(HashTable ht, Key key, Value val) {
     if (!ht || !key || !val) return;
     if ((double)ht->elements_num/(double)ht->size > UPPER_LOAD_FACTOR) resize(ht, UP);
@@ -85,6 +87,7 @@ void insert(HashTable ht, Key key, Value val) {
     if (ptr->key == key) ptr->value = val;
     else ptr->next = createHashNode(key, val);
 }
+
 
 void erase(HashTable ht, Key key) {
     if (!ht || !key) return;
@@ -110,7 +113,7 @@ void erase(HashTable ht, Key key) {
     }
 }
 
-//******************************************** HashNode Implementation ***********************************************//
+//********************************************** HashNode Functions **************************************************//
 
 HashNode createHashNode(Key key, Value val) {
     HashNode new_node = malloc(sizeof (struct hash_node));
@@ -120,11 +123,13 @@ HashNode createHashNode(Key key, Value val) {
     return new_node;
 }
 
+
 void destroyHashNode(HashNode hn) {
     if (hn) free(hn);
 }
 
-//******************************************** HashNode Implementation ***********************************************//
+
+//********************************************** Auxiliary Functions *************************************************//
 
 void emptyTable(HashTable ht) {
     for (int i = 0; i < ht->size; i++) {
@@ -176,3 +181,4 @@ void insertNode(HashNode* table, int size, HashNode node) {
     }
     ptr->next = node;
 }
+

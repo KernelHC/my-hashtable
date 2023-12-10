@@ -8,7 +8,7 @@ typedef void* Value;
 
 HashTable createHashTable();
 void destroyHashtable(HashTable ht);
-void* get(HashTable ht, Key key);
+Value get(HashTable ht, Key key);
 void insert(Key key, Value val);
 
 #endif //MY_HASH_H

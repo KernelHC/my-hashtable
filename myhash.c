@@ -1,10 +1,14 @@
 #include "myhash.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 //************************************************* Definitions ******************************************************//
 #define INIT_SIZE (10)
-#define LOAD_FACTOR (0.75)
+#define UPPER_LOAD_FACTOR (0.75)
+#define LOWER_LOAD_FACTOR (0.5)
+#define UP (false)
+#define DOWN (true)
 
 //************************************************* Declarations *****************************************************//
 
@@ -15,7 +19,7 @@ void destroyHashNode(HashNode hn);
 
 // Auxiliary functions:
 void emptyTable(HashTable ht);
-void resize(HashTable ht);
+void resize(HashTable ht, bool down);
 int hash(int size, Key key);
 void insertNode(HashNode* table, int size, HashNode node);
 
@@ -62,11 +66,48 @@ Value get(HashTable ht, Key key) {
 }
 
 void insert(HashTable ht, Key key, Value val) {
-
+    if (!ht || !key || !val) return;
+    if ((double)ht->elements_num/(double)ht->size > UPPER_LOAD_FACTOR) resize(ht, UP);
+    int hash_key = hash(ht->size, key);
+    HashNode ptr = ht->table[hash_key];
+    if (!ptr) {
+        ht->table[hash_key] = createHashNode(key, val);
+        ht->elements_num++;
+        return;
+    }
+    while (ptr->next) {
+        if (ptr->key == key) {
+            ptr->value = val;
+            return;
+        }
+        ptr = ptr->next;
+    }
+    if (ptr->key == key) ptr->value = val;
+    else ptr->next = createHashNode(key, val);
 }
 
 void erase(HashTable ht, Key key) {
-
+    if (!ht || !key) return;
+    if ((double)ht->elements_num/(double)ht->size < LOWER_LOAD_FACTOR) resize(ht, DOWN);
+    int hash_key = hash(ht->size, key);
+    HashNode prev = ht->table[hash_key];
+    if (!prev) return;
+    if (prev->key == key) {
+        ht->table[hash_key] = NULL;
+        destroyHashNode(prev);
+        ht->elements_num--;
+        return;
+    }
+    HashNode ptr = prev->next;
+    while (ptr) {
+        if (ptr->key == key) {
+            prev->next = ptr->next;
+            destroyHashNode(ptr);
+            ht->elements_num--;
+            return;
+        }
+        ptr = ptr->next;
+    }
 }
 
 //******************************************** HashNode Implementation ***********************************************//
@@ -97,9 +138,11 @@ void emptyTable(HashTable ht) {
 }
 
 
-void resize(HashTable ht) {
+void resize(HashTable ht, bool down) {
     if (!ht) return;
-    HashNode* new_table = malloc(2 * ht->size * sizeof (HashNode));
+    HashNode* new_table = down?
+            malloc((ht->size/2) * sizeof (HashNode)):
+            malloc(2 * ht->size * sizeof (HashNode));
     for (int i = 0; i < ht->size; i++) {
         HashNode ptr = ht->table[i];
         while (ptr) {

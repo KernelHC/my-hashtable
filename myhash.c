@@ -16,6 +16,7 @@ void destroyHashNode(HashNode hn);
 // Auxiliary functions:
 void emptyTable(HashTable ht);
 void resize(HashTable ht);
+int hash(HashTable ht, Key key);
 
 //********************************************** Struct Definitions **************************************************//
 
@@ -52,12 +53,10 @@ void destroyHashtable(HashTable ht) {
 Value get(HashTable ht, Key key) {
     if (!ht || !key) return NULL;
     Value val = NULL;
-    for (int i = 0; i < ht->size; i++) {
-        HashNode ptr = ht->table[i];
-        while (ptr) {
-            if (ptr->key == key) return ptr->value;
-            ptr = ptr->next;
-        }
+    HashNode ptr = ht->table[hash(ht, key)];
+    while (ptr) {
+        if (ptr->key == key) return ptr->value;
+        ptr = ptr->next;
     }
     return NULL;
 }
@@ -91,4 +90,9 @@ void emptyTable(HashTable ht) {
             destroyHashNode(to_delete);
         }
     }
+}
+
+
+int hash(HashTable ht, Key key) {
+    return (int)((long long)key % ht->size);
 }

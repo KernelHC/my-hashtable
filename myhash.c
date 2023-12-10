@@ -52,7 +52,6 @@ void destroyHashtable(HashTable ht) {
 
 Value get(HashTable ht, Key key) {
     if (!ht || !key) return NULL;
-    Value val = NULL;
     HashNode ptr = ht->table[hash(ht, key)];
     while (ptr) {
         if (ptr->key == key) return ptr->value;
@@ -61,7 +60,11 @@ Value get(HashTable ht, Key key) {
     return NULL;
 }
 
-void insert(Key key, Value val) {
+void insert(HashTable ht, Key key, Value val) {
+
+}
+
+void erase(HashTable ht, Key key) {
 
 }
 
@@ -93,6 +96,22 @@ void emptyTable(HashTable ht) {
 }
 
 
+void resize(HashTable ht) {
+    if (!ht) return;
+    HashNode* new_table = malloc(2 * ht->size * sizeof (HashNode));
+    for (int i = 0; i < ht->size; i++) {
+        HashNode ptr = ht->table[i];
+        while (ptr) {
+            ptr = ptr->next;
+        }
+    }
+    free(ht->table);
+    ht->size *= 2;
+    ht->table = new_table;
+}
+
+
 int hash(HashTable ht, Key key) {
     return (int)((long long)key % ht->size);
 }
+

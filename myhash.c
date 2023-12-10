@@ -2,11 +2,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct hash_node {
+//************************************************* Definitions ******************************************************//
+#define INIT_SIZE (10)
+
+
+//************************************************* Declarations *****************************************************//
+
+typedef struct hash_node* HashNode;
+
+HashNode createHashNode(Key key, Value val);
+void destroyHashNode(HashNode hn);
+
+//********************************************** Struct Definitions **************************************************//
+
+struct hash_node {
     Key key;
     Value value;
     struct hash_node* next;
-}* HashNode;
+};
 
 struct hash_table {
     int size;

@@ -13,3 +13,4 @@ void insert(HashTable ht, Key key, Value val);
 void erase(HashTable ht, Key key);
 
 #endif //MY_HASH_H
+

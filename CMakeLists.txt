@@ -3,6 +3,4 @@ project(myhash C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_library(myhash myhash.c)
-
-add_executable(myhash_test myhash_test.c)
+add_executable(myhash_test myhash_test.c myhash.c)

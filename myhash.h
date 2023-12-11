@@ -9,9 +9,8 @@ typedef struct hash_table *HashTable;
 typedef void* Key;
 typedef void* Value;
 
-typedef struct hash_node* HashNode;
-
 #ifdef DEBUG
+typedef struct hash_node* HashNode;
 struct hash_node {
     Key key;
     Value value;

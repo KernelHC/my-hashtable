@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <pthread.h>
 
 //************************************************* Definitions ******************************************************//
 #define INIT_SIZE (10)
@@ -10,8 +11,9 @@
 #define UP (false)
 #define DOWN (true)
 //************************************************* Declarations *****************************************************//
-
-//typedef struct hash_node* HashNode;
+#ifndef DEBUG
+typedef struct hash_node* HashNode;
+#endif
 
 HashNode createHashNode(Key key, Value val);
 void destroyHashNode(HashNode hn);
@@ -21,6 +23,11 @@ void emptyTable(HashTable ht);
 void resize(HashTable ht, bool down);
 int hash(int size, Key key);
 void insertNode(HashNode* table, int size, HashNode node);
+
+// Lock and Multithreading:
+pthread_mutex_t global_lock;
+pthread_cond_t readers_allowed;
+pthread_cond_t writers_allowed;
 
 //********************************************** Struct Definitions **************************************************//
 

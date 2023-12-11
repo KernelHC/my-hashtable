@@ -5,11 +5,10 @@
 
 //************************************************* Definitions ******************************************************//
 #define INIT_SIZE (10)
-#define UPPER_LOAD_FACTOR (0.75)
-#define LOWER_LOAD_FACTOR (0.5)
+#define MAX_LOAD_FACTOR (1)
+#define MIN_LOAD_FACTOR (0.75)
 #define UP (false)
 #define DOWN (true)
-
 //************************************************* Declarations *****************************************************//
 
 //typedef struct hash_node* HashNode;
@@ -73,7 +72,7 @@ Value get(HashTable ht, Key key) {
 
 void insert(HashTable ht, Key key, Value val) {
     if (!ht) return;
-    if ((double)ht->elements_num/(double)ht->size > UPPER_LOAD_FACTOR) resize(ht, UP);
+    if ((double)ht->elements_num/(double)ht->size > MAX_LOAD_FACTOR) resize(ht, UP);
     int hash_key = hash(ht->size, key);
     HashNode ptr = ht->table[hash_key];
     if (!ptr) {
@@ -90,12 +89,13 @@ void insert(HashTable ht, Key key, Value val) {
     }
     if (ptr->key == key) ptr->value = val;
     else ptr->next = createHashNode(key, val);
+    ht->elements_num++;
 }
 
 
 void erase(HashTable ht, Key key) {
     if (!ht) return;
-    if ((double)ht->elements_num/(double)ht->size < LOWER_LOAD_FACTOR) resize(ht, DOWN);
+    if ((double)ht->elements_num/(double)ht->size < MIN_LOAD_FACTOR && ht->size > 100) resize(ht, DOWN);
     int hash_key = hash(ht->size, key);
     HashNode prev = ht->table[hash_key];
     if (!prev) return;

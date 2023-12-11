@@ -3,6 +3,7 @@
 
 #include "myhash_test.h"
 
+
 typedef struct hash_table *HashTable;
 
 typedef void* Key;

@@ -90,6 +90,7 @@ void insert(HashTable ht, Key key, Value val) {
     }
     if (ptr->key == key) ptr->value = val;
     else ptr->next = createHashNode(key, val);
+    ht->elements_num++;
 }
 
 

@@ -18,11 +18,14 @@ void testInsert() {
     assert(ht);
     for (int i = 0; i < 9; i++) {
         insert(ht, (Key)i, "abc");
-        printf("%d\n", i);
         assert(ht->elements_num == i+1);
     }
-    printf("%d\n", ht->size);
     assert(ht->size == 20);
+    for (int i = 0; i < 22; i++) {
+        insert(ht, (Key)((i+1)*800), (Value)i);
+        assert(ht->elements_num == i+10);
+    }
+    assert(ht->size == 40);
     destroyHashtable(ht);
 }
 

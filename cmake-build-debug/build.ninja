@@ -41,41 +41,43 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/Users/User/Desktop/myhash/cmake-build-debug/
 # =============================================================================
-# Object build statements for STATIC_LIBRARY target myhash
+# Object build statements for EXECUTABLE target myhash_test
 
 
 #############################################
-# Order-only phony target for myhash
+# Order-only phony target for myhash_test
 
-build cmake_object_order_depends_target_myhash: phony || CMakeFiles/myhash.dir
+build cmake_object_order_depends_target_myhash_test: phony || CMakeFiles/myhash_test.dir
 
-build CMakeFiles/myhash.dir/myhash.c.obj: C_COMPILER__myhash_Debug C$:/Users/User/Desktop/myhash/myhash.c || cmake_object_order_depends_target_myhash
-  DEP_FILE = CMakeFiles\myhash.dir\myhash.c.obj.d
+build CMakeFiles/myhash_test.dir/myhash_test.c.obj: C_COMPILER__myhash_test_Debug C$:/Users/User/Desktop/myhash/myhash_test.c || cmake_object_order_depends_target_myhash_test
+  DEP_FILE = CMakeFiles\myhash_test.dir\myhash_test.c.obj.d
   FLAGS = -g -fdiagnostics-color=always -std=gnu11
-  OBJECT_DIR = CMakeFiles\myhash.dir
-  OBJECT_FILE_DIR = CMakeFiles\myhash.dir
+  OBJECT_DIR = CMakeFiles\myhash_test.dir
+  OBJECT_FILE_DIR = CMakeFiles\myhash_test.dir
 
-build CMakeFiles/myhash.dir/myhash_test.c.obj: C_COMPILER__myhash_Debug C$:/Users/User/Desktop/myhash/myhash_test.c || cmake_object_order_depends_target_myhash
-  DEP_FILE = CMakeFiles\myhash.dir\myhash_test.c.obj.d
+build CMakeFiles/myhash_test.dir/myhash.c.obj: C_COMPILER__myhash_test_Debug C$:/Users/User/Desktop/myhash/myhash.c || cmake_object_order_depends_target_myhash_test
+  DEP_FILE = CMakeFiles\myhash_test.dir\myhash.c.obj.d
   FLAGS = -g -fdiagnostics-color=always -std=gnu11
-  OBJECT_DIR = CMakeFiles\myhash.dir
-  OBJECT_FILE_DIR = CMakeFiles\myhash.dir
+  OBJECT_DIR = CMakeFiles\myhash_test.dir
+  OBJECT_FILE_DIR = CMakeFiles\myhash_test.dir
 
 
 # =============================================================================
-# Link build statements for STATIC_LIBRARY target myhash
+# Link build statements for EXECUTABLE target myhash_test
 
 
 #############################################
-# Link the static library libmyhash.a
+# Link the executable myhash_test.exe
 
-build libmyhash.a: C_STATIC_LIBRARY_LINKER__myhash_Debug CMakeFiles/myhash.dir/myhash.c.obj CMakeFiles/myhash.dir/myhash_test.c.obj
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = CMakeFiles\myhash.dir
+build myhash_test.exe: C_EXECUTABLE_LINKER__myhash_test_Debug CMakeFiles/myhash_test.dir/myhash_test.c.obj CMakeFiles/myhash_test.dir/myhash.c.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\myhash_test.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = libmyhash.a
-  TARGET_PDB = myhash.a.dbg
+  TARGET_FILE = myhash_test.exe
+  TARGET_IMPLIB = libmyhash_test.dll.a
+  TARGET_PDB = myhash_test.exe.dbg
 
 
 #############################################
@@ -103,7 +105,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build myhash: phony libmyhash.a
+build myhash_test: phony myhash_test.exe
 
 # =============================================================================
 # Folder targets.
@@ -113,7 +115,7 @@ build myhash: phony libmyhash.a
 #############################################
 # Folder: C:/Users/User/Desktop/myhash/cmake-build-debug
 
-build all: phony libmyhash.a
+build all: phony myhash_test.exe
 
 # =============================================================================
 # Built-in targets

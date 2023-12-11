@@ -12,7 +12,7 @@
 
 //************************************************* Declarations *****************************************************//
 
-typedef struct hash_node* HashNode;
+//typedef struct hash_node* HashNode;
 
 HashNode createHashNode(Key key, Value val);
 void destroyHashNode(HashNode hn);
@@ -25,24 +25,29 @@ void insertNode(HashNode* table, int size, HashNode node);
 
 //********************************************** Struct Definitions **************************************************//
 
+#ifndef DEBUG
 struct hash_node {
     Key key;
     Value value;
     struct hash_node* next;
 };
 
+
 struct hash_table {
     int size;
-    HashNode* table;
     int elements_num;
+    HashNode* table;
 };
+#endif
 
-//******************************************** HashTable Implementation **********************************************//
+//********************************************** HashTable Functions *************************************************//
 
 HashTable createHashTable() {
     HashTable ht = malloc(sizeof (struct hash_table));
     ht->size = INIT_SIZE;
-    ht->table = malloc(INIT_SIZE * sizeof (HashNode));
+    ht->table = calloc(INIT_SIZE, sizeof (HashNode));
+    if (!ht->table) return NULL;
+    ht->elements_num = 0;
     return ht;
 }
 
@@ -56,7 +61,7 @@ void destroyHashtable(HashTable ht) {
 
 
 Value get(HashTable ht, Key key) {
-    if (!ht || !key) return NULL;
+    if (!ht) return NULL;
     HashNode ptr = ht->table[hash(ht->size, key)];
     while (ptr) {
         if (ptr->key == key) return ptr->value;
@@ -65,8 +70,9 @@ Value get(HashTable ht, Key key) {
     return NULL;
 }
 
+
 void insert(HashTable ht, Key key, Value val) {
-    if (!ht || !key || !val) return;
+    if (!ht) return;
     if ((double)ht->elements_num/(double)ht->size > UPPER_LOAD_FACTOR) resize(ht, UP);
     int hash_key = hash(ht->size, key);
     HashNode ptr = ht->table[hash_key];
@@ -86,8 +92,9 @@ void insert(HashTable ht, Key key, Value val) {
     else ptr->next = createHashNode(key, val);
 }
 
+
 void erase(HashTable ht, Key key) {
-    if (!ht || !key) return;
+    if (!ht) return;
     if ((double)ht->elements_num/(double)ht->size < LOWER_LOAD_FACTOR) resize(ht, DOWN);
     int hash_key = hash(ht->size, key);
     HashNode prev = ht->table[hash_key];
@@ -110,21 +117,24 @@ void erase(HashTable ht, Key key) {
     }
 }
 
-//******************************************** HashNode Implementation ***********************************************//
+//********************************************** HashNode Functions **************************************************//
 
 HashNode createHashNode(Key key, Value val) {
     HashNode new_node = malloc(sizeof (struct hash_node));
+    if (!new_node) return NULL;
     new_node->key = key;
     new_node->value = val;
     new_node->next = NULL;
     return new_node;
 }
 
+
 void destroyHashNode(HashNode hn) {
     if (hn) free(hn);
 }
 
-//******************************************** HashNode Implementation ***********************************************//
+
+//********************************************** Auxiliary Functions *************************************************//
 
 void emptyTable(HashTable ht) {
     for (int i = 0; i < ht->size; i++) {
@@ -141,8 +151,9 @@ void emptyTable(HashTable ht) {
 void resize(HashTable ht, bool down) {
     if (!ht) return;
     HashNode* new_table = down?
-            malloc((ht->size/2) * sizeof (HashNode)):
-            malloc(2 * ht->size * sizeof (HashNode));
+            calloc((ht->size/2), sizeof (HashNode)):
+            calloc(2 * ht->size, sizeof (HashNode));
+    if (!new_table) return;
     for (int i = 0; i < ht->size; i++) {
         HashNode ptr = ht->table[i];
         while (ptr) {
@@ -176,3 +187,4 @@ void insertNode(HashNode* table, int size, HashNode node) {
     }
     ptr->next = node;
 }
+

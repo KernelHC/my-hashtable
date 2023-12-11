@@ -1,10 +1,28 @@
 #ifndef MY_HASH_H
 #define MY_HASH_H
 
+#include "myhash_test.h"
+
 typedef struct hash_table *HashTable;
 
 typedef void* Key;
 typedef void* Value;
+
+typedef struct hash_node* HashNode;
+
+#ifdef DEBUG
+struct hash_node {
+    Key key;
+    Value value;
+    struct hash_node* next;
+};
+
+struct hash_table {
+    int size;
+    int elements_num;
+    HashNode* table;
+};
+#endif
 
 HashTable createHashTable();
 void destroyHashtable(HashTable ht);

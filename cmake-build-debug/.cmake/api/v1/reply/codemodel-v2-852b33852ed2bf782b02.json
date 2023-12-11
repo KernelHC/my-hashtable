@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,7 +31,8 @@
 					"name" : "myhash",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -39,8 +41,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "myhash::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-myhash-Debug-cdd6daf8d3712236de61.json",
+					"jsonFile" : "target-myhash-Debug-f903212bddf64e7a8888.json",
 					"name" : "myhash",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "myhash_test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-myhash_test-Debug-89933bbf491fa223c57a.json",
+					"name" : "myhash_test",
 					"projectIndex" : 0
 				}
 			]

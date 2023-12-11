@@ -61,6 +61,7 @@ void (*tests[])() = {
     testInit,
     testInsert,
     testInsert2,
+    testGet,
     testCopy,
     testSameKey,
     testErase,
